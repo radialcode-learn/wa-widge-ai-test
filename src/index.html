@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Widget - Build Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .build-info {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #25D366;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>WhatsApp Widget - Production Build Test</h1>
+        
+        <div class="build-info">
+            <h3>✅ Build Information</h3>
+            <p><strong>Version:</strong> Built with Webpack</p>
+            <p><strong>Environment:</strong> <%= htmlWebpackPlugin.options.mode || 'development' %></p>
+            <p><strong>Build Time:</strong> <%= new Date().toISOString() %></p>
+            <p><strong>Features:</strong> Minified, Obfuscated, Production Ready</p>
+        </div>
+
+        <h2>Widget Features:</h2>
+        <ul>
+            <li>✅ Floating WhatsApp button</li>
+            <li>✅ Custom QR code with branding</li>
+            <li>✅ Domain validation & licensing</li>
+            <li>✅ Loading animations</li>
+            <li>✅ Responsive design</li>
+            <li>✅ Security protection</li>
+        </ul>
+
+        <p><strong>Look for the floating "Chat with us" button!</strong></p>
+    </div>
+
+    <!-- Widget will be injected by Webpack -->
+    <script>
+        // Initialize widget with test configuration
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('WhatsApp Widget loaded from build');
+        });
+    </script>
+</body>
+</html>
