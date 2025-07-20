@@ -4,22 +4,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Widget Test</title>
+    <title>WhatsApp Widget Test - All Properties</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .property-list {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .property-list h3 {
+            margin-top: 0;
+            color: #25D366;
+        }
+        .property {
+            margin: 5px 0;
+            font-family: monospace;
+            background: white;
+            padding: 5px;
+            border-radius: 3px;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>WhatsApp Widget Test Page</h1>
+    <div class="container">
+        <h1>WhatsApp Widget Test - All Properties Demo</h1>
+        
+        <p>This page demonstrates the WhatsApp widget with all available configuration properties.</p>
+        
+        <div class="property-list">
+            <h3>Current Configuration:</h3>
+            <div class="property"><strong>data-whatsapp-number:</strong> "+1234567890"</div>
+            <div class="property"><strong>data-business-name:</strong> "Acme Corporation"</div>
+            <div class="property"><strong>data-default-message:</strong> "Hello! I'm interested in your services. Can we chat?"</div>
+            <div class="property"><strong>data-theme-color:</strong> "#25D366" (WhatsApp Green)</div>
+            <div class="property"><strong>data-position:</strong> "bottom-right"</div>
+            <div class="property"><strong>data-welcome-message:</strong> "Welcome to Acme Corp! How can our team assist you today?"</div>
+            <div class="property"><strong>data-logo-url:</strong> Custom logo for QR code branding</div>
+        </div>
 
-    <!-- Import the WhatsApp widget script -->
+        <h2>Available Positions:</h2>
+        <ul>
+            <li><code>bottom-right</code> (default)</li>
+            <li><code>bottom-left</code></li>
+            <li><code>top-right</code></li>
+            <li><code>top-left</code></li>
+        </ul>
+
+        <h2>Features:</h2>
+        <ul>
+            <li>✅ Floating chat button</li>
+            <li>✅ Customizable business name and colors</li>
+            <li>✅ Pre-filled WhatsApp messages</li>
+            <li>✅ QR code generation with custom branding</li>
+            <li>✅ Loading animations</li>
+            <li>✅ Responsive design</li>
+            <li>✅ Custom logo integration</li>
+        </ul>
+
+        <p><strong>Try it:</strong> Look for the floating "Chat with us" button in the bottom-right corner!</p>
+    </div>
+
+    <!-- WhatsApp Widget with ALL available properties -->
     <script src="./wa-widget.js" 
         data-whatsapp-number="+1234567890" 
-        data-logo-url="/radialcode favicon.png"
-        data-business-name="Test Business" 
-        data-default-message="Hello, I'd like to chat!" 
+        data-business-name="Acme Corporation" 
+        data-default-message="Hello! I'm interested in your services. Can we chat?" 
         data-theme-color="#25D366"
         data-position="bottom-right" 
-        data-welcome-message="Hi there! How can we help you today?"
-        >
+        data-welcome-message="Welcome to Acme Corp! How can our team assist you today?"
+        data-logo-url="https://cdn-icons-png.flaticon.com/512/2111/2111728.png">
     </script>
 </body>
 
