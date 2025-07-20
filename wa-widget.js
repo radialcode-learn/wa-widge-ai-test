@@ -27,6 +27,7 @@
   const themeColor = script.getAttribute("data-theme-color") || "#25D366";
   const position = script.getAttribute("data-position") || "bottom-right";
   const welcomeMessage = script.getAttribute("data-welcome-message") || "Hi there! How can we help you today?";
+  const logoUrl = script.getAttribute("data-logo-url") || null;
 
   // Create floating button
   const floatingButton = createElement(
@@ -103,13 +104,13 @@
   function generateQRCode(container) {
     console.log("Attempting to generate QR code...");
 
-    // Show loading message
-    container.innerHTML = '<p style="text-align: center; color: #666;">Loading QR code...</p>';
+    // Show loading spinner
+    showLoadingSpinner(container);
 
     // Try to load QRCode library first
     if (window.QRCode) {
       console.log("QRCode library already loaded");
-      createQRCodeWithLibrary(container);
+      setTimeout(() => createQRCodeWithLibrary(container), 100); // Small delay to show spinner
       return;
     }
 
@@ -121,7 +122,7 @@
     const timeout = setTimeout(() => {
       console.log("QR library loading timeout, using fallback");
       createQRCodeWithAPI(container);
-    }, 5000);
+    }, 3000); // Reduced timeout for better UX
 
     qrCodeScript.onload = () => {
       clearTimeout(timeout);
@@ -136,6 +137,15 @@
     };
 
     document.head.appendChild(qrCodeScript);
+  }
+
+  function showLoadingSpinner(container) {
+    container.innerHTML = `
+      <div class="wa-qr-loading">
+        <div class="wa-spinner"></div>
+        <p>Generating QR code...</p>
+      </div>
+    `;
   }
 
   function createQRCodeWithLibrary(container) {
@@ -197,17 +207,42 @@
 
       console.log("Generating QR with API for:", qrData);
 
-      // Use QR Server API as fallback
-      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(qrData)}`;
+      // Create QR code container with custom styling
+      const qrContainer = document.createElement("div");
+      qrContainer.className = "wa-qr-container";
 
-      container.innerHTML = "";
+      // Use QR Server API with custom styling
+      const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(
+        qrData
+      )}&format=png&margin=10`;
+
       const img = document.createElement("img");
       img.src = qrApiUrl;
       img.alt = "WhatsApp QR Code";
-      img.style.cssText = "max-width: 200px; height: auto; border: 1px solid #ddd;";
+      img.className = "wa-qr-image";
+      img.style.display = "none";
 
       img.onload = () => {
         console.log("QR code generated successfully with API");
+        container.innerHTML = "";
+
+        // Add the QR image to container
+        qrContainer.appendChild(img);
+
+        // Add logo overlay if provided
+        if (logoUrl) {
+          const logoOverlay = document.createElement("div");
+          logoOverlay.className = "wa-qr-logo-overlay";
+          const logo = document.createElement("img");
+          logo.src = logoUrl;
+          logo.alt = "Logo";
+          logo.className = "wa-qr-logo";
+          logoOverlay.appendChild(logo);
+          qrContainer.appendChild(logoOverlay);
+        }
+
+        img.style.display = "block";
+        container.appendChild(qrContainer);
         addQRInstructions(container);
       };
 
@@ -216,7 +251,8 @@
         container.innerHTML = '<p style="color: red; text-align: center;">Unable to generate QR code</p>';
       };
 
-      container.appendChild(img);
+      qrContainer.appendChild(img);
+      container.appendChild(qrContainer);
     } catch (error) {
       console.error("API error:", error);
       container.innerHTML = '<p style="color: red; text-align: center;">Error generating QR code</p>';
@@ -279,6 +315,59 @@
         .wa-qr-code canvas {
             max-width: 100%;
             height: auto;
+        }
+        .wa-qr-container {
+            position: relative;
+            display: inline-block;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            background: white;
+            padding: 10px;
+        }
+        .wa-qr-image {
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+        }
+        .wa-qr-logo-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 50%;
+            padding: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        .wa-qr-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .wa-qr-loading {
+            text-align: center;
+            padding: 20px;
+        }
+        .wa-qr-loading p {
+            margin: 10px 0 0 0;
+            font-size: 14px;
+            color: #666;
+        }
+        .wa-spinner {
+            width: 40px;
+            height: 40px;
+            margin: 0 auto;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #25D366;
+            border-radius: 50%;
+            animation: wa-spin 1s linear infinite;
+        }
+        @keyframes wa-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     `;
   document.head.appendChild(style);
